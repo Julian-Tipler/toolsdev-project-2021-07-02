@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Datetime:</strong>
+  <%= @temperature.datetime %>
+</p>
+
+<p>
+  <strong>Temperature:</strong>
+  <%= @temperature.temperature %>
+</p>
+
+<%= link_to 'Edit', edit_temperature_path(@temperature) %> |
+<%= link_to 'Back', temperatures_path %>
