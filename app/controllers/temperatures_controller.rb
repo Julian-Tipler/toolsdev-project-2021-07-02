@@ -3,7 +3,10 @@ class TemperaturesController < ApplicationController
 
   # GET /temperatures or /temperatures.json
   def index
-    @temperatures = Temperature.all
+    @entries = Temperature.last(720)
+    @temperatures = @entries.map{ |entry| 
+    [entry.datetime.to_time.to_f * 1000,entry.temperature]
+  }
   end
 
   # GET /temperatures/1 or /temperatures/1.json

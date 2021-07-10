@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-puts "start"
+Temperature.destroy_all
 def thirtydaytemps
     response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=30&tp=1&format=json'
     json = JSON.parse response
@@ -26,12 +26,6 @@ def thirtydaytemps
             dt = DateTime.strptime(d + " " + h,'%Y-%m-%d %k')
             Temperature.create(datetime: dt, temperature: hour["tempF"])
         end
-    end
-
-    if !json.nil?
-        
-    else
-        # puts "error seeding thirtydaytemps"
     end
 end
 
