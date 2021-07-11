@@ -16,11 +16,45 @@
   </tbody>
 </table>
 
-<div id="container" style="width:100%; height:400px;"></div>
+<div id="temperature" style="width:100%; height:400px;"></div>
+<div id="highlows" style="width:100%; height:400px;"></div>
+
 <script>
 let data = <%= @temperatures %>
+let rangeButtons = {
+                enabled: true,
+                allButtonsEnabled: true,
+                verticalAlign: 'top',
+                x: 0,
+                y: 0,
+                buttons: [{
+                type: 'day',
+                count: 1,
+                text: '1d',
+                title: 'View 1 day'
+                },{
+                type: 'day',
+                count: 5,
+                text: '5d',
+                title: 'View 5 days'
+                },
+                {
+                type: 'day',
+                count: 30,
+                text: 'ALL',
+                title: 'View 30 days'
+                }]
+        }
 document.addEventListener('DOMContentLoaded', () =>{
-    Highcharts.chart('container', {
+    Highcharts.chart('temperature', {
+            plotOptions: {
+    line: {
+        marker: {
+            enabled: false
+        }
+    }
+},
+            rangeSelector: rangeButtons,
             title: {
                     text: 'Temperature'
             },
@@ -46,12 +80,83 @@ document.addEventListener('DOMContentLoaded', () =>{
                             label: {
                                     connectorAllowed: false
                             },
-                    }
+                    },
+                    line: {
+                        marker: {
+                                enabled: false
+                                }
+                        }
             },
 
             series: [{
                     name: 'Austin HQ',
                     data: data
+            }],
+
+            responsive: {
+                    rules: [{
+                            condition: {
+                                    maxWidth: 500
+                            },
+                            chartOptions: {
+                                    legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                    }
+                            }
+                    }]
+            }
+
+    });
+})
+</script>
+<script>
+let highs = <%= @highs %>
+let lows = <%= @lows %>
+document.addEventListener('DOMContentLoaded', () =>{
+    Highcharts.chart('highlows', {
+            rangeSelector: rangeButtons,
+            title: {
+                    text: 'Highs and Lows'
+            },
+                xAxis: {
+                        title: {
+                                text: 'Date'
+                        },
+                        type: 'datetime'
+                },
+            yAxis: {
+                    title: {
+                            text: 'Temperature F'
+                    }
+            },
+            legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                    series: {
+                            label: {
+                                    connectorAllowed: false
+                            },
+                    },
+                    line: {
+                        marker: {
+                                enabled: false
+                                }
+                        }
+                },
+
+            series: [{
+                    name: 'Highs',
+                    data: highs
+            },
+            {
+                    name: 'Lows',
+                    data: lows
             }],
 
             responsive: {
