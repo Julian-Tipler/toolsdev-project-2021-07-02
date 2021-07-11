@@ -16,26 +16,23 @@
   </tbody>
 </table>
 
-<div>
-        <%=@temperatures.first[0].class%>
-</div>
-
-
 <div id="container" style="width:100%; height:400px;"></div>
 <script>
+let data = <%= @temperatures %>
+document.addEventListener('DOMContentLoaded', () =>{
     Highcharts.chart('container', {
-
             title: {
-                    text: 'Solar Employment Growth by Sector, 2010-2016'
+                    text: 'Temperature'
             },
-
-            subtitle: {
-                    text: 'Source: thesolarfoundation.com'
-            },
-
+                xAxis: {
+                        title: {
+                                text: 'Date'
+                        },
+                        type: 'datetime'
+                },
             yAxis: {
                     title: {
-                            text: 'Number of Employees'
+                            text: 'Temperature F'
                     }
             },
             legend: {
@@ -49,14 +46,12 @@
                             label: {
                                     connectorAllowed: false
                             },
-                            pointStart: 2010
                     }
             },
 
             series: [{
-                    name: 'Temperature (F)',
-                    data: <%= @temperatures%>
-                    }
+                    name: 'Austin HQ',
+                    data: data
             }],
 
             responsive: {
@@ -75,6 +70,7 @@
             }
 
     });
+})
 </script>
 
 <br>
