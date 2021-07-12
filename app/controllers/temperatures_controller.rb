@@ -4,6 +4,7 @@ class TemperaturesController < ApplicationController
   # GET /temperatures or /temperatures.json
   def index
     @entries = Temperature.last(720)
+    puts @entries.length()
     # temperatures converted to epoch time
     @temperatures = @entries.map{ |entry| 
       [entry.datetime.to_time.to_i * 1000,entry.temperature]
@@ -21,7 +22,6 @@ class TemperaturesController < ApplicationController
       currentArray = []
       x+=3
     end
-    puts @highs
   end
 
   # GET /temperatures/1 or /temperatures/1.json

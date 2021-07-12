@@ -12,7 +12,10 @@ def thirtydaytemps
     response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=30&tp=1&format=json'
     json = JSON.parse response
 
+    len = 0
     json["data"]["weather"].each do |day|
+        len = len+1
+
         d = day["date"]
         day["hourly"].each do |hour|
             if hour["time"].length === 1
@@ -27,8 +30,7 @@ def thirtydaytemps
             Temperature.create(datetime: dt, temperature: hour["tempF"])
         end
     end
+    puts len
 end
-
-def 
 
 thirtydaytemps()
