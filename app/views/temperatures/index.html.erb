@@ -22,6 +22,7 @@
 <script>
 let data = <%= @temperatures %>
 let predictions = <%= @predictions %>
+//range buttons:
 let rangeButtons = {
                 enabled: true,
                 allButtonsEnabled: true,
@@ -46,6 +47,7 @@ let rangeButtons = {
                 title: 'View 30 days'
                 }]
         }
+        //chart 1:
 document.addEventListener('DOMContentLoaded', () =>{
     Highcharts.chart('temperature', {
             plotOptions: {
@@ -118,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 <script>
 let highs = <%= @highs %>
 let lows = <%= @lows %>
+        //chart 2:
 document.addEventListener('DOMContentLoaded', () =>{
     Highcharts.chart('highlows', {
             rangeSelector: rangeButtons,
@@ -181,7 +184,3 @@ document.addEventListener('DOMContentLoaded', () =>{
     });
 })
 </script>
-
-<br>
-
-<%= link_to 'New Temperature', new_temperature_path %>

@@ -9,14 +9,13 @@
 
 Temperature.destroy_all
 
+# receives two future days of prediction
 def twodayprediction
-    response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=3&tp=1&format=json'
+    response = RestClient.get "http://api.worldweatheronline.com/premium/v1/weather.ashx?key=#{ENV['WEATHER_API_KEY']}&q=30.404251,-97.849442&num_of_days=3&tp=1&format=json"
     json = JSON.parse response
-
     json["data"]["weather"].each do |day|
 
         d = day["date"]
-        puts d
         day["hourly"].each do |hour|
             if hour["time"].length === 1
                 h = "0"
@@ -32,10 +31,11 @@ def twodayprediction
     end
 end
 
+# receives weather history of the past 30 days
 def thirtydayhistory
     (0..30).step(1) do |daysago|
         day = (Date.today-daysago).to_s
-        url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&date=#{day}&tp=1&format=json"
+        url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=#{ENV['WEATHER_API_KEY']}&q=30.404251,-97.849442&date=#{day}&tp=1&format=json"
         response = RestClient.get url
         json = JSON.parse response
         
