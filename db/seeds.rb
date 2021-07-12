@@ -8,13 +8,12 @@
 
 
 Temperature.destroy_all
-def thirtydaytemps
+
+def fourteendayprediction
     response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=30&tp=1&format=json'
     json = JSON.parse response
 
-    len = 0
     json["data"]["weather"].each do |day|
-        len = len+1
 
         d = day["date"]
         day["hourly"].each do |hour|
@@ -30,7 +29,36 @@ def thirtydaytemps
             Temperature.create(datetime: dt, temperature: hour["tempF"])
         end
     end
-    puts len
 end
 
-thirtydaytemps()
+def thirtydayhistory
+    (0..30).step(1) do |daysago|
+        day = (Date.today-daysago).to_s
+        url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&date=#{day}&tp=1&format=json"
+        response = RestClient.get url
+        json = JSON.parse response
+        
+        json["data"]["weather"].each do |day|
+
+            d = day["date"]
+            puts d
+            day["hourly"].each do |hour|
+                if hour["time"].length === 1
+                    h = "0"
+                elsif hour["time"].length === 3
+                    h = hour["time"][0...1]
+                else
+                    h = hour["time"][0...2]
+                end
+                str = d + " " + h
+                dt = DateTime.strptime(d + " " + h,'%Y-%m-%d %k')
+                Temperature.create(datetime: dt, temperature: hour["tempF"])
+            end
+        end
+    end
+end
+
+
+
+# fourteendayprediction()
+thirtydayhistory()
