@@ -21,6 +21,7 @@
 
 <script>
 let data = <%= @temperatures %>
+let predictions = <%= @predictions %>
 let rangeButtons = {
                 enabled: true,
                 allButtonsEnabled: true,
@@ -91,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () =>{
             series: [{
                     name: 'Austin HQ',
                     data: data
+            },{
+                    name: 'Predictions',
+                    data: predictions
             }],
 
             responsive: {

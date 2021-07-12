@@ -9,13 +9,14 @@
 
 Temperature.destroy_all
 
-def fourteendayprediction
-    response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=30&tp=1&format=json'
+def twodayprediction
+    response = RestClient.get 'http://api.worldweatheronline.com/premium/v1/weather.ashx?key=97ff00345b434479828234737210607&q=30.404251,-97.849442&num_of_days=3&tp=1&format=json'
     json = JSON.parse response
 
     json["data"]["weather"].each do |day|
 
         d = day["date"]
+        puts d
         day["hourly"].each do |hour|
             if hour["time"].length === 1
                 h = "0"
@@ -41,7 +42,6 @@ def thirtydayhistory
         json["data"]["weather"].each do |day|
 
             d = day["date"]
-            puts d
             day["hourly"].each do |hour|
                 if hour["time"].length === 1
                     h = "0"
@@ -60,5 +60,5 @@ end
 
 
 
-# fourteendayprediction()
+twodayprediction()
 thirtydayhistory()
